@@ -1,0 +1,35 @@
+{% if not standalone %}{% extends 'layout.html' %}{% endif -%}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+{% block title %}Login{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block contents %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+    <form action="{{ url_for('login') }}" method="post" name="login">
+            <fieldset>
+                <legend>Log on</legend>
+                <label for="username">Username: </label>
+                <input id="username" class="form-control" name="user" type="text" size="8"/>
+                <label for="password">Password:</label>
+                <input id="password" class="form-control" name="pass" type="password" size="8"/>
+            </fieldset>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+            <input id="submit" class="btn btn-primary" name="btnLogin" type="submit" value="Login"/>
+        </div>
+        </div>
+    </form>
+</div>
+    {% if error %}
+    <div class="row">
+        <strong>Error:</strong>{{ error }}
+    </div>
+    {% endif %}
+
+{% endblock %}
+

@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+{% block title %}The Blog - New Post{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block contents %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+        <h1>New post</h1>
+        </div>
+        <div class="row">
+    <div class="col">
+        <a href="{{ url_for('show') }}">Return</a>
+    </div>
+    </div>
+    </div>
+    <div class="row">
+        <div class="col">
+    <form name="frmEntry" action="{{ entry['action'] }}" method="post">
+        <dl>
+            <dt>Title:</dt>
+            <dd>
+                <input type="text" class="form-control" name="title" size="50" value="{{ entry['title'] }}"/>
+            </dd>
+            <dt>Text:</dt>
+            <dd>
+                <textarea rows="10" class="form-control" cols="50" name="post">{{ entry['post'] }}</textarea>
+            </dd>
+        </dl>
+        <input type="hidden" name="username" value="{{ entry['username'] }}"/>
+        <input type="submit" class="btn btn-primary" name="Publish" value="Publish"/>
+    </form>
+    </div>
+    </div>
+    </div>
+    </div>
+{% endblock %}
+</html>

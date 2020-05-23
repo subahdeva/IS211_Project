@@ -1,0 +1,111 @@
+{% extends 'layout.html' %}
+{% block title %}Manage Posts{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block contents %}
+    <div class="container-fluid">
+        <h1> Blog Dashboard </h1>
+        <div class="row">
+        <table class="table">
+        {% if user == 'admin' %}
+            <form action="{{ url_for('add_user') }}" name="add-user" method="post">
+            <tr>
+                <td colspan="3"><strong>Create a New user</strong></td>
+            </tr>
+            <tr>
+                <td>First Name:</td>
+                <td colspan="2"><input type="text" class="form-control" name="fname" size="20"/></td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td colspan="2"><input type="text" class="form-control" name="lname" size="20"/></td>
+            </tr>
+            <tr>
+                <td>Username</td>
+                <td colspan="2"><input type="text" class="form-control" name="username" size="20"/></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td colspan="2"><input type="password" class="form-control" name="password" size="20"/></td>
+            </tr>
+            <tr>
+                <td>Email Address</td>
+                <td colspan="2"><input type="text" class="form-control" name="email" size="20"/></td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <input type="submit" class="btn btn-primary" name="Create" value="Create User"/>
+                </td>
+            </tr>
+            </form>
+            <tr>
+                <td colspan="3">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email Address</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for usr in userdata %}
+                        <tr>
+                            <td>{{ usr['username'] }}</td>
+                            <td>{{ usr['fname'] }}</td>
+                            <td>{{ usr['lname'] }}</td>
+                            <td>{{ usr['email'] }}</td>
+                            <td>
+                                {% if usr['username'] != 'admin' %}
+                                <a href="{{ url_for('delete_user', username=usr['username']) }}">
+                                    Delete
+                                </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+        {% endif %}
+        {% for row in entries %}
+            <tr>
+                <td>
+                    {{ row['title'] }}
+                </td>
+                <td>
+                <form action="{{ url_for('dashboard') }}" method="post" name="pub">
+                    <input type="hidden" name="pid" value="{{ row['pid'] }}"/>
+                {% if row['state'] == 1 %}
+
+                        <input type="submit" class="btn btn-primary" name="state" value="Unpublish" />
+
+                {% else %}
+
+                        <input type="submit" class="btn btn-primary" name="state" value="Publish"/>
+
+                {% endif %}
+                </form>
+                </td>
+                <td>
+                    <form action="{{ url_for('edit_post', pid=row['pid']) }}" method="get", name="edit">
+                        <input type="submit" name="edit" class="btn btn-warning" value="Edit"/>
+                    </form>
+                </td>
+                <td>
+                    <form action="{{ url_for('delete_post', pid=row['pid']) }}" method="get", name="del">
+                        <input type="submit" class="btn btn-danger" name="delete" value="Delete"/>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+
+        </table>
+    </div>
+    </div>
+{% endblock %}
